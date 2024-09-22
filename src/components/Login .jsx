@@ -1,7 +1,22 @@
 import { useState } from "react";
+import React from "react";
+import { signInWithPopup, auth, provider } from "../services/firebase";
+import { useNavigate } from "react-router-dom";
+useNavigate
 
 const Login = () => {
+    const navigate = useNavigate();
+
     const [visible, setShowPassword] = useState(true);
+
+    const signInWithGoogle = async () => {
+        try {
+            await signInWithPopup(auth, provider);
+            navigate('/test');
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return (
         <div className="loginStyle">
             <div className="rounded w-[36rem]">
@@ -15,7 +30,7 @@ const Login = () => {
                 <div className="mb-4 relative">
                     <input placeholder="Password" type={visible ? 'password':'text'} className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"/>
                     <button className="absolute right-2 top-2" type="button"onClick={() => setShowPassword(!visible)}>
-                        {visible ? <i class="fa fa-eye" aria-hidden="true"></i> : <i class="fa fa-eye-slash" aria-hidden="true"></i>}
+                        {visible ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}
                     </button>
                 </div>
                 <div className="mt-12">
@@ -24,7 +39,7 @@ const Login = () => {
                     </button>
                 </div>
                 <div className="mt-6">
-                    <button className="w-full border border-gray-300 p-2 rounded-lg flex items-center justify-center hover:bg-gray-100">
+                    <button onClick={signInWithGoogle} className="w-full border border-gray-300 p-2 rounded-lg flex items-center justify-center hover:bg-gray-100">
                         <span className="mr-2">
                         <i className="fab fa-google"></i>
                         </span>
