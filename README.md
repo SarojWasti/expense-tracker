@@ -1,2 +1,2 @@
 # Expense Tracker
-WEB APPLICATION Built Using ```React, Tailwind CSS and Firebase```.
+## An Expense Tracker Web Application Built Using ```React, Tailwind CSS and Firebase```.
