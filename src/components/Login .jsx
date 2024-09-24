@@ -34,20 +34,25 @@ const Login = () => {
                     </button>
                 </div>
                 <div className="mt-12">
-                    <button className="w-full border-none text-white bg-customRed p-2 rounded-lg">
+                    <button 
+                    className="w-full border-none text-sm text-white
+                     bg-customRed p-2 rounded-lg hover:shadow-lg transition-all duration-300">
                         Login
                     </button>
                 </div>
                 <div className="mt-6">
-                    <button onClick={signInWithGoogle} className="w-full border border-gray-300 p-2 rounded-lg flex items-center justify-center hover:bg-gray-100">
+                    <button onClick={signInWithGoogle} 
+                    className="w-full border border-gray-300 p-3 text-sm 
+                    rounded-lg flex items-center justify-center 
+                    hover:bg-gray-100 hover:shadow-md transition-all duration-300">
                         <span className="mr-2">
                         <i className="fab fa-google"></i>
                         </span>
-                        Sign Up with Google
+                        Continue with Google
                     </button>
                 </div>
-                <div className="mt-6">
-                    <a onClick={()=>navigate('/signup')} className="w-full text-customRed cursor-pointer rounded-lg flex items-center justify-center text-sm hover:underline">
+                <div className="mt-6 flex texxt-center justify-center">
+                    <a onClick={()=>navigate('/signup')} className="text-customRed cursor-pointer text-sm hover:underline">
                         Create a new account
                     </a>
                 </div>

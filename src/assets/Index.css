@@ -4,15 +4,27 @@
 @tailwind components;
 @tailwind utilities;
 .fa-google {
-    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    font-size: 14px;
-  }
-  .loginStyle{
-    @apply font-sora flex items-center justify-center min-h-screen bg-gray-100
-  }
-  .custom-button{
-    @apply w-full rounded-xl
-  }
+  background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-size: 14px;
+}
+.loginStyle{
+  @apply font-sora flex items-center justify-center min-h-screen bg-gray-100
+}
+.custom-button{
+  @apply w-full rounded-xl
+}
+.dashboard{
+  @apply font-sora
+}
+.custom-icon{
+  @apply text-center
+}
+.custom-list{
+  @apply flex items-center justify-between
+}
+.searchThis{
+  @apply bg-gray-300 rounded-md focus:outline-none
+}
