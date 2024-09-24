@@ -19,9 +19,9 @@ const Login = () => {
     };
     return (
         <div className="loginStyle">
-            <div className="rounded w-[36rem]">
-                <h2 className="text-3xl font-bold">Expense Tracker</h2>
-                <h1 className="text-3xl font-bold mt-[4rem] mb-4">Welcome!</h1>
+            <div className="rounded p-2 sm:w-[36rem]">
+                <h2 className="text-3xl font-bold text-customRed">Expense Tracker</h2>
+                <h1 className="text-2xl font-bold mt-[4rem] mb-4">Welcome!</h1>
                 <p>Create a new account or Login using Google!</p>
                 <div className="mb-4 mt-8">
                     <input placeholder="Email" type="text" className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"
@@ -34,7 +34,7 @@ const Login = () => {
                     </button>
                 </div>
                 <div className="mt-12">
-                    <button className="w-full border-none text-white bg-black p-2 rounded-lg">
+                    <button className="w-full border-none text-white bg-customRed p-2 rounded-lg">
                         Login
                     </button>
                 </div>
@@ -45,6 +45,11 @@ const Login = () => {
                         </span>
                         Sign Up with Google
                     </button>
+                </div>
+                <div className="mt-6">
+                    <a onClick={()=>navigate('/signup')} className="w-full text-customRed cursor-pointer rounded-lg flex items-center justify-center text-sm hover:underline">
+                        Create a new account
+                    </a>
                 </div>
             </div>
         </div>

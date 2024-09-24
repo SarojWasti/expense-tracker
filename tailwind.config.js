@@ -9,10 +9,8 @@ export default {
       fontFamily:{
         sora:['Sora','sans-serif'],
       },
-      backgroundColor:{
-        lGray: '#dadada',
-      },
-      textColor: {
+      colors :{
+        customRed: '#AA1111',
         lGray : '#dadada',
       }
     },
