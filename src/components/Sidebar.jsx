@@ -2,9 +2,21 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faCog, faEnvelope, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../services/firebase';
 
 const Sidebar = () => {
     const navigate = useNavigate();
+    const logOut = async() =>{
+        alert("Are you sure you want to log out")
+        try{
+            await signOut(auth);
+            navigate("/")
+        }
+        catch(error){
+            console.error(error);
+        }
+    }
     return (
         <div className="w-1/4 flex items-center justify-center"> 
             <div className="text-center">
@@ -44,7 +56,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a className="flex items-center justify-center cursor-pointer" onClick={() => navigate('/signup')} href="#">
+                            <a className="flex items-center justify-center cursor-pointer" onClick={()=>logOut()} href="#">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faSignOut} />
                                 </span>

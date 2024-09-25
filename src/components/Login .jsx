@@ -2,8 +2,6 @@ import { useState } from "react";
 import React from "react";
 import { signInWithPopup, auth, provider } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
-useNavigate
-
 const Login = () => {
     const navigate = useNavigate();
 
@@ -12,7 +10,7 @@ const Login = () => {
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, provider);
-            navigate('/test');
+            navigate('/dashboard');
         } catch (error) {
             console.error(error);
         }

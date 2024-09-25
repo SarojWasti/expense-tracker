@@ -1,8 +1,8 @@
 import { faSearch, faUser } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const Home = () => {
+const Home = ({user}) => {
   return (
       <div className="w-3/4 bg-white">
         <div className="userIcon relative">
@@ -10,7 +10,7 @@ const Home = () => {
             <span>
               <FontAwesomeIcon icon={faUser}/>
             </span>
-            <span>Hi Saroj</span>
+            <span>{user.displayName}</span>
           </span>
         </div>
           <div className="relative w-full max-w-xs">

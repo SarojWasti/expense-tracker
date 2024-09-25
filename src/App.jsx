@@ -1,20 +1,31 @@
 import './assets/Index.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login ';
-import TestRedirect from './components/TestRedirect';
-import Signup from './components/Signup';
 import Dashboard from './Dashboard';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './services/firebase';
+
 
 function App() {
-
+  const [user,setUser] = useState(null);
+  const [load, setLoad] = useState(true)
+  useEffect(()=>{
+    const unsub = onAuthStateChanged(auth,(user)=>{
+      setUser(user);
+      setLoad(false);
+    })
+    return ()=> unsub();
+  },[])
+  if(load){
+    <div>Loading...</div>
+  }
   return (
     <>
       <Router>
-        <Routes>{/*
-          <Route path="/" element={<Login />} />
-          <Route path="/test" element={<TestRedirect />} />
-          <Route path="/signup" element={<Signup/>}/>*/}
-          <Route path="/dashboard" element={<Dashboard/>}/>
+        <Routes>
+          <Route path="/" element={user ? <Navigate to = "/dashboard"/>:<Login/>} />
+          <Route path="/dashboard" element={user ? <Dashboard user={user}/> : <Navigate to="/"/>}/>
         </Routes>
       </Router>
     </>
