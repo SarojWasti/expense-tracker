@@ -2,23 +2,16 @@ import './assets/Index.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login ';
 import Dashboard from './Dashboard';
-import { useEffect, useState } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './services/firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 function App() {
-  const [user,setUser] = useState(null);
-  const [load, setLoad] = useState(true)
-  useEffect(()=>{
-    const unsub = onAuthStateChanged(auth,(user)=>{
-      setUser(user);
-      setLoad(false);
-    })
-    return ()=> unsub();
-  },[])
+  const [user,load] = useAuthState(auth);
   if(load){
-    <div>Loading...</div>
+    return(
+      <div>Loading....</div>
+    );
   }
   return (
     <>

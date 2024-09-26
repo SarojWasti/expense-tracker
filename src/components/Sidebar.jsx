@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faCog, faEnvelope, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../services/firebase';
 
@@ -18,13 +18,13 @@ const Sidebar = () => {
         }
     }
     return (
-        <div className="w-1/4 flex items-center justify-center"> 
-            <div className="text-center">
+        <div className="w-1/4 flex items-center justify-center shadow-lg pb-[10rem]"> 
+            <div>
                 <h2 className="text-xl font-bold text-customRed">Expense Tracker</h2>
                 <div className="mt-16">
                     <ul className="space-y-16 list-none">
                         <li className="custom-list">
-                            <a href="#" className="flex items-center justify-center">
+                            <a href="/">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faChartPie} />
                                 </span>
@@ -32,7 +32,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a href="#" className="flex items-center justify-center">
+                            <a href="#">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faEnvelope} />
                                 </span>
@@ -40,7 +40,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a href="#" className="flex items-center justify-center">
+                            <a href="#">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faUser} />
                                 </span>
@@ -48,7 +48,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a href="#" className="flex items-center justify-center">
+                            <a href="#">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faCog} />
                                 </span>
@@ -56,7 +56,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a className="flex items-center justify-center cursor-pointer" onClick={()=>logOut()} href="#">
+                            <a className="  cursor-pointer" onClick={()=>logOut()} href="#">
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faSignOut} />
                                 </span>
