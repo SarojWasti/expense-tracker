@@ -1,6 +1,5 @@
 import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
-import { useEffect, useState } from "react";
 
 const Dashboard = ({user}) =>{
     return(
@@ -8,7 +7,7 @@ const Dashboard = ({user}) =>{
             {user ?
              (
                 <div className="dashboard flex mt-8 overflow-hidden">
-
+                    
                     <Sidebar/>
                     <Home user={user}/>
                 </div>

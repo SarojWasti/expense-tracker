@@ -2,20 +2,14 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faCog, faEnvelope, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
 import { auth } from '../services/firebase';
 
 const Sidebar = () => {
     const navigate = useNavigate();
     const logOut = async() =>{
-        alert("Are you sure you want to log out")
-        try{
-            await signOut(auth);
-            navigate("/")
-        }
-        catch(error){
-            console.error(error);
-        }
+        alert("Signing you out!")
+        await auth.signOut();
+        navigate("/")
     }
     return (
         <div className="w-1/4 flex items-center justify-center shadow-lg pb-[10rem]"> 

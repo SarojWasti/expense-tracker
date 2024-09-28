@@ -1,22 +1,24 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Messages from './Messages';
 
 const Home = ({ user }) => {
   const userName = user.displayName;
   const email = user.email;
   const emailVerified = user.emailVerified;
-  const photo = user?.photoURL;
+  const photo = user.photoURL;
   const displayUserInfo = () => {
     alert(`
       User Name: ${userName}
       User Email: ${email}
       Email Verified: ${emailVerified}
       `);
+      window.location.href = photo;
   };
 
   return (
+
     <div className="w-3/4 bg-white top-1 ml-4">
-      
       <div className="userIcon float-right mr-[4rem]">
         <button className="p-2" onClick={() => displayUserInfo()}>
           <span className="space-x-2 flex items-center">
@@ -36,6 +38,7 @@ const Home = ({ user }) => {
           className="absolute right-3 top-1/2 transform -translate-y-1/2"
         />
       </div>
+      <Messages user={user}/>
     </div>
   );
 };

@@ -4,7 +4,6 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { collection, getFirestore } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyAOpgPshdmUzK1XjEfW43QgqHcD3Xneoyw",
   authDomain: "expensetracker-56e23.firebaseapp.com",

@@ -7,12 +7,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 
 function App() {
-  const [user,load] = useAuthState(auth);
-  if(load){
-    return(
-      <div>Loading....</div>
-    );
-  }
+  const [user] = useAuthState(auth);
   return (
     <>
       <Router>
