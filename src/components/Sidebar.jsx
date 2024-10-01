@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartPie, faCog, faEnvelope, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebase';
 
+
+
 const Sidebar = () => {
+
     const navigate = useNavigate();
     const logOut = async() =>{
         alert("Signing you out!")
-        await auth.signOut();
+        await auth.signOut();  
         navigate("/")
     }
     return (
@@ -18,7 +21,7 @@ const Sidebar = () => {
                 <div className="mt-16">
                     <ul className="space-y-16 list-none">
                         <li className="custom-list">
-                            <a href="/">
+                            <a>
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faChartPie} />
                                 </span>
@@ -26,7 +29,15 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a href="#">
+                            <a onClick={()=>navigate('/dashboard/expenses')}>
+                                <span className="custom-icon">
+                                    <FontAwesomeIcon icon={faMoneyBillWave} />
+                                </span>
+                                <span className="ml-4">Expenses</span>
+                            </a>
+                        </li>
+                        <li className="custom-list">
+                            <a onClick={()=>navigate('/dashboard')}>
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faEnvelope} />
                                 </span>

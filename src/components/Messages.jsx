@@ -1,30 +1,27 @@
-import { addDoc, collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { addDoc, collection, limit, orderBy, query, Timestamp } from "firebase/firestore";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { firestore } from "../services/firebase";
-import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
-
 const Messages = ({user}) =>{
     const messagesRef = collection(firestore,"messageStore");
     const [userMsg, setUserMsg] = useState('');
 
     const [getMessages] = useCollectionData(
-      query(messagesRef, orderBy("timestamp"), limit(25)),
-      { idField: "id" } // This should be correctly specified
-    );
+      query(messagesRef, 
+        orderBy("timestamp"), 
+        limit(25)),{idField: 'id'} );
     
-    const handleMessages = () =>{
+    const handleMessages = async() =>{
       const msgData ={
         text: userMsg,
         userID: user.uid,
-        timestamp: Timestamp.now(),
+        timestamp: Timestamp.fromDate(new Date()),
         photo: user.photoURL,
       };
-      try{
-        addDoc(messagesRef,msgData);
+      if(userMsg.trim())
+      {
         setUserMsg('')
-      }catch(error){
-        console.error('This error: ',error);
+        await addDoc(messagesRef,msgData);
       }
     }
     const enterEvent = (e) =>{
@@ -38,8 +35,8 @@ const Messages = ({user}) =>{
           {getMessages &&
             getMessages.map((eachMsg) => (
               
-              <div key={eachMsg.id} className={`flex mb-2 ${eachMsg.userID == user?.uid ? "justify-end" : "justify-start"}`}>
-                {eachMsg.userID !== user.uid &&(<img
+              <div className={`flex mb-2 ${eachMsg.userID == user?.uid ? "justify-end" : "justify-start"}`}>
+                {eachMsg.userID !== user.uid &&(<img key={eachMsg.id}
                   src={eachMsg.photo}
                   alt="user"
                   className="w-8 h-8 rounded-full mr-2"

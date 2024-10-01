@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={user ? <Navigate to = "/dashboard"/>:<Login/>} />
-          <Route path="/dashboard" element={user ? <Dashboard user={user}/> : <Navigate to="/"/>}/>
+          <Route path="/dashboard/*" element={user ? <Dashboard user={user}/> : <Navigate to="/"/>}/>
         </Routes>
       </Router>
     </>

@@ -2,11 +2,24 @@ import { useState } from "react";
 import React from "react";
 import { signInWithPopup, auth, provider } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+
 const Login = () => {
+    
     const navigate = useNavigate();
 
     const [visible, setShowPassword] = useState(true);
+    const [userEmail,setUserEmail] = useState('');
+    const [userPassword, setUserPassword] = useState('password');
 
+    const emailSignIn = async() =>{
+        try{
+            await createUserWithEmailAndPassword(auth, userEmail, userPassword);
+            alert("Signed in successfully!")
+        }catch(error){
+            alert(`${userEmail}, ${userPassword}`);
+        }
+    }
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, provider);
@@ -22,17 +35,17 @@ const Login = () => {
                 <h1 className="text-2xl font-bold mt-[4rem] mb-4">Welcome!</h1>
                 <p>Create a new account or Login using Google!</p>
                 <div className="mb-4 mt-8">
-                    <input placeholder="Email" type="text" className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"
+                    <input onChange={(e)=>setUserEmail(e.target.value)} placeholder="Email" type="text" className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"
                     />
                 </div>
                 <div className="mb-4 relative">
-                    <input placeholder="Password" type={visible ? 'password':'text'} className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"/>
+                    <input onChange={(e)=>setUserPassword(e.target.value)} placeholder="Password" type={visible ? 'password':'text'} className="w-full p-2 border-b-2 bg-gray-100 border-black focus:outline-none"/>
                     <button className="absolute right-2 top-2" type="button"onClick={() => setShowPassword(!visible)}>
                         {visible ? <i className="fa fa-eye" aria-hidden="true"></i> : <i className="fa fa-eye-slash" aria-hidden="true"></i>}
                     </button>
                 </div>
                 <div className="mt-12">
-                    <button 
+                    <button
                     className="w-full border-none text-sm text-white
                      bg-customRed p-2 rounded-lg hover:shadow-lg transition-all duration-300">
                         Login
