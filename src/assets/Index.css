@@ -48,6 +48,9 @@
 .close-btn {
   @apply absolute top-2 right-2 text-xl text-gray-600 hover:text-red-500 transition-colors;
 }
+.expenseInput{
+  @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none;
+}
 
 @keyframes fadeIn {
   from {

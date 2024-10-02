@@ -4,20 +4,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Messages from './Messages';
 import Expenses from './Expenses';
 import { Routes, Route } from 'react-router-dom';
+import { addDoc, collection, query, Timestamp } from 'firebase/firestore';
+import { firestore } from '../services/firebase';
+
 const Home = ({ user}) => {
+
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
   const [selectedIcon, setSelectedIcon] = useState('Food');
-  const [initExpense, setExpense] = useState("Today's Expense");
+  const [initExpense, setExpense] = useState("");
   const [initCost, setCost] = useState(0);
 
+
+
+  const expenseRef = collection(firestore, "expenseStore");
 
   const userName = user.displayName;
   const email = user.email;
   const emailVerified = user.emailVerified;
   const photo = user.photoURL;
 
+  {/* Icons Object To use for Add expense */}
   const icons = [
     { icon: faBowlFood, value: 'Food' },
     { icon: faBus, value: 'Transport' },
@@ -33,10 +41,34 @@ const Home = ({ user}) => {
       User Email: ${email}
       Email Verified: ${emailVerified}
     `);
-    window.location.href = photo;
+
   };
-  const handleForm = () => {
-    alert(`${selectedIcon} ${initExpense}${initCost}`)
+
+  {/* HANDLE FORM TO ADD EXPENSES */}
+  const handleForm = async(e) => {
+
+    e.preventDefault();
+    const expenseData = {
+      userID: user.uid,
+      name: initExpense,
+      category: selectedIcon,
+      amount: initCost,
+      createdDate: Timestamp.fromDate(new Date())
+  
+    }
+
+    try{
+      alert("Expense added successfully!")
+      await addDoc(expenseRef,expenseData);
+      
+      closePopup();
+
+    }catch(error){
+      alert(`The error is: ${error}`);
+    }
+    setSelectedIcon("Food");
+    setExpense("");
+    setCost(0);
   };
 
   const handleIconClick = (icon) => {
@@ -54,7 +86,7 @@ const Home = ({ user}) => {
           <input
             type="text"
             placeholder="Search"
-            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+            className="w-full p-2 border border-gray-500 rounded-md focus:outline-none"
           />
           <FontAwesomeIcon
             icon={faSearch}
@@ -97,9 +129,9 @@ const Home = ({ user}) => {
       {/*---------------------Routes--------------------*/}
         <Routes>
           
-          <Route path="expenses" element={<Expenses/>}/>
+          <Route index element={<Expenses user={user}/>}/>
           
-          <Route index element={<Messages user={user}/>}/>
+          <Route path="messages" element={<Messages user={user}/>}/>
       </Routes>
      {/*---------------------------------------------------------- */} 
       {/* Popup - Add Expense */}
@@ -115,9 +147,10 @@ const Home = ({ user}) => {
               <div>
                 <input
                 type="text"
+                value={initExpense}
                 onChange={(e)=>setExpense(e.target.value)}
                 placeholder="Expense Name"
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                className="expenseInput"
               />
               </div>
 
@@ -138,14 +171,14 @@ const Home = ({ user}) => {
               <div>
                 <input
                 type="text"
+                value={initCost}
                 onChange={(e)=>setCost(e.target.value)}
                 placeholder="Total Cost"
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none"
+                className="expenseInput"
               />
               </div>
               <button
               className="p-2 bg-customRed text-white rounded-lg"
-              onClick={openPopup}
             >
               Create <FontAwesomeIcon icon={faPlusCircle}/>
             </button>

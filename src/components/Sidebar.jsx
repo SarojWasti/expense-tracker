@@ -15,13 +15,13 @@ const Sidebar = () => {
         navigate("/")
     }
     return (
-        <div className="w-1/4 flex items-center justify-center shadow-lg pb-[10rem]"> 
+        <div className="sm:w-1/4 flex items-center justify-center shadow-lg"> 
             <div>
                 <h2 className="text-xl font-bold text-customRed">Expense Tracker</h2>
                 <div className="mt-16">
                     <ul className="space-y-16 list-none">
                         <li className="custom-list">
-                            <a>
+                            <a onClick={()=>navigate("/dashboard")}>
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faChartPie} />
                                 </span>
@@ -29,7 +29,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a onClick={()=>navigate('/dashboard/expenses')}>
+                            <a onClick={()=>navigate('/dashboard')}>
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faMoneyBillWave} />
                                 </span>
@@ -37,7 +37,7 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a onClick={()=>navigate('/dashboard')}>
+                            <a onClick={()=>navigate('/dashboard/messages')}>
                                 <span className="custom-icon">
                                     <FontAwesomeIcon icon={faEnvelope} />
                                 </span>
