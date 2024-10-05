@@ -6,12 +6,14 @@ import Expenses from './Expenses';
 import { Routes, Route } from 'react-router-dom';
 import { addDoc, collection, query, Timestamp } from 'firebase/firestore';
 import { firestore } from '../services/firebase';
+import PieChart from './Piechart';
 
 const Home = ({ user}) => {
 
   const [showPopup, setShowPopup] = useState(false);
   const openPopup = () => setShowPopup(true);
   const closePopup = () => setShowPopup(false);
+
   const [selectedIcon, setSelectedIcon] = useState('Food');
   const [initExpense, setExpense] = useState("");
   const [initCost, setCost] = useState(0);
@@ -79,7 +81,7 @@ const Home = ({ user}) => {
 
 
   return (
-    <div className="w-3/4 bg-white top-1 ml-4">
+    <div className="w-3/4 bg-white top-1 ml-4 mt-6">
       <div className="flex items-center">
         {/* Search bar */}
         <div className="relative w-full max-w-xs">
@@ -95,13 +97,14 @@ const Home = ({ user}) => {
         </div>
 
         <div className="flex xl:space-x-12 xl:ml-[20rem] ml-[4rem]">
-          {/* Button */}
-          <div className="flex items-center text-sm">
+
+          {/*Add Expense Button */}
+          <div className="flex items-center md:text-sm">
             <button
-              className="p-2 bg-customRed text-white rounded-lg"
+              className="p-4 bg-customRed text-white rounded-lg lg:p-2"
               onClick={openPopup}
             >
-              Add Expense <FontAwesomeIcon icon={faPlusCircle}/>
+              <span className='lg:inline hidden'>Add Expense</span> <FontAwesomeIcon icon={faPlusCircle}/>
             </button>
           </div>
 
@@ -120,7 +123,7 @@ const Home = ({ user}) => {
                 ) : (
                   <FontAwesomeIcon icon={faUser} height={30} width={30} />
                 )}
-                <span>{user.displayName}</span>
+                <span className='md:inline hidden'>{user.displayName}</span>
               </span>
             </button>
           </div>
@@ -129,9 +132,11 @@ const Home = ({ user}) => {
       {/*---------------------Routes--------------------*/}
         <Routes>
           
-          <Route index element={<Expenses user={user}/>}/>
+          <Route index element={<PieChart user={user}/>}/>
           
           <Route path="messages" element={<Messages user={user}/>}/>
+
+          <Route path="expenses" element={<Expenses user={user}/>}/>
       </Routes>
      {/*---------------------------------------------------------- */} 
       {/* Popup - Add Expense */}

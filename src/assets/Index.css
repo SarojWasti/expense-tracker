@@ -20,15 +20,12 @@
   @apply font-sora
 }
 .custom-icon{
-  @apply text-center
+  @apply sm:text-center md:mb-0 mb-4 md:inline flex items-center justify-center
 }
 .custom-list{
   @apply flex items-center transition-all duration-300 justify-between px-2 py-2
 }
-.custom-list:hover{
-  @apply ease-in-out pl-2 pr-1
-  bg-gray-200 shadow-lg cursor-pointer rounded-lg
-}
+
 .searchThis{
   @apply bg-gray-300 rounded-md focus:outline-none
 }

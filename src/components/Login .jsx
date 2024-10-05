@@ -62,11 +62,6 @@ const Login = () => {
                         Continue with Google
                     </button>
                 </div>
-                <div className="mt-6 flex texxt-center justify-center">
-                    <a onClick={()=>navigate('/signup')} className="text-customRed cursor-pointer text-sm hover:underline">
-                        Create a new account
-                    </a>
-                </div>
             </div>
         </div>
     );
