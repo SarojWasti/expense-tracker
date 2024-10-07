@@ -6,11 +6,13 @@ import { faBowlFood, faBus, faFolder, faGem, faTools, faTrash } from "@fortaweso
 
 const Expenses = ({ user }) => {
     const deleteExpense = async(expenseID) => {
-      try{
-        alert("Expense Deleted Successfully!")
-        await deleteDoc(doc(firestore,"expenseStore",expenseID));
-      }catch(error){console.error(error)}
-    }
+        try {
+            alert("Expense Deleted Successfully!");
+            await deleteDoc(doc(firestore,"expenseStore",expenseID));
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const expenseRef = collection(firestore, "expenseStore");
     const [snapshot, loading, error] = useCollection(
@@ -33,7 +35,7 @@ const Expenses = ({ user }) => {
     ];
 
     return (
-        <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl">
+        <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl px-4 sm:px-8 lg:px-16">
             <div className="p-4">
                 <h2 className="flex text-3xl font-bold gap-2">
                     Hello <span className="text-customRed">{user.displayName}!</span>
@@ -43,7 +45,7 @@ const Expenses = ({ user }) => {
                 </div>
             </div>
             <div className="p-4 overflow-y-auto flex-grow">
-                <div className="grid grid-cols-4 gap-8 border-b-2 pb-2 p-2 bg-gray-200">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 border-b-2 pb-2 p-2 bg-gray-200">
                     <div>Expense Name</div>
                     <div>Date</div>
                     <div>Category</div>
@@ -52,14 +54,19 @@ const Expenses = ({ user }) => {
 
                 {userExpense && userExpense.length > 0 ? (
                     userExpense.map((expense) => (
-                        <div key={expense.id} className="grid grid-cols-4 mt-8 gap-8 border-b-2">
+                        <div key={expense.id} className="grid grid-cols-2 sm:grid-cols-4 mt-8 gap-4 sm:gap-8 border-b-2">
                             <div>{expense.name}</div>
                             <div>{new Date(expense.createdDate.toDate()).toLocaleDateString()}</div>
-                            <div className="gap-2 flex">
+                            <div className="flex items-center gap-2">
                                 <FontAwesomeIcon icon={icons.find(icon => icon.value === expense.category)?.icon} />
                                 <div>{expense.category}</div>
                             </div>
-                            <div className="flex justify-between">${expense.amount} <span onClick={()=>deleteExpense(expense.id)} className="cursor-pointer mr-10 text-red-600"><FontAwesomeIcon icon={faTrash} /></span></div>
+                            <div className="flex justify-between">
+                                ${expense.amount} 
+                                <span onClick={() => deleteExpense(expense.id)} className="cursor-pointer text-red-600">
+                                    <FontAwesomeIcon icon={faTrash} />
+                                </span>
+                            </div>
                         </div>
                     ))
                 ) : (

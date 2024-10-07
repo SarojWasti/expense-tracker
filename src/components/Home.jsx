@@ -101,7 +101,7 @@ const Home = ({ user}) => {
           {/*Add Expense Button */}
           <div className="flex items-center md:text-sm">
             <button
-              className="p-4 bg-customRed text-white rounded-lg lg:p-2"
+              className="p-3 bg-customRed text-white rounded-lg lg:p-2"
               onClick={openPopup}
             >
               <span className='lg:inline hidden'>Add Expense</span> <FontAwesomeIcon icon={faPlusCircle}/>

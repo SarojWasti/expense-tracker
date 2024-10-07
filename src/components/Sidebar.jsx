@@ -19,7 +19,7 @@ const Sidebar = () => {
             <div className="flex flex-col items-center mt-10">
                 <a onClick={() => navigate("/dashboard")}>
                     <div className="flex items-center justify-center cursor-pointer">
-                        <img className='md:w-[7rem] sm:w-[5rem] w-[4rem]' src={ET} />
+                        <img className='md:w-[7rem] sm:w-[4.5rem] w-[3rem]' src={ET} />
                     </div>
                 </a>
                 <div className="mt-20">
