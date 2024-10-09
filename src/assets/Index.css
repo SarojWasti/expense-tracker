@@ -37,7 +37,7 @@
 }
 
 .popup-container {
-  @apply relative bg-white p-6 rounded-lg shadow-lg text-center transform scale-90;
+  @apply relative bg-white p-6 rounded-lg shadow-lg text-center transform scale-150;
   opacity: 0;
   animation: popIn 0.3s forwards ease-in-out;
 }

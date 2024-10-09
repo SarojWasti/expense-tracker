@@ -96,7 +96,7 @@ const Home = ({ user}) => {
           />
         </div>
 
-        <div className="flex xl:space-x-12 xl:ml-[20rem] ml-[4rem]">
+        <div className="flex xl:space-x-12 xl:ml-[20rem] sm:ml-[4rem] ml-6">
 
           {/*Add Expense Button */}
           <div className="flex items-center md:text-sm">
@@ -109,21 +109,15 @@ const Home = ({ user}) => {
           </div>
 
           {/* User icon */}
-          <div className="flex items-center ml-2">
+          <div className="flex items-center">
             <button className="p-2" onClick={displayUserInfo}>
               <span className="space-x-2 flex items-center">
-                {user.photoURL ? (
                   <img
-                    className="rounded-2xl"
+                    className="rounded-3xl h-auto w-auto sm:h-8 sm:w-8"
                     src={photo}
-                    height={30}
-                    width={30}
                     alt="User"
                   />
-                ) : (
-                  <FontAwesomeIcon icon={faUser} height={30} width={30} />
-                )}
-                <span className='md:inline hidden'>{user.displayName}</span>
+                  <div className='md:inline hidden'>{user.displayName}</div>
               </span>
             </button>
           </div>
@@ -159,12 +153,12 @@ const Home = ({ user}) => {
               />
               </div>
 
-              <div className="flex justify-around">
+              <div className="flex justify-around text-xs sm:text-lg">
                 {icons.map(({ icon, value }) => (
                   <div
                     key={value}
                     onClick={() => handleIconClick(value)}
-                    className={`cursor-pointer flex flex-col items-center p-4 ${
+                    className={`cursor-pointer flex flex-col items-center md:p-4 p-2 ${
                       selectedIcon === value ? 'text-customRed' : 'text-gray-500'
                     }`}
                   >

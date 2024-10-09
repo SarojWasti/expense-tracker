@@ -37,10 +37,10 @@ const Expenses = ({ user }) => {
     return (
         <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl px-4 sm:px-8 lg:px-16">
             <div className="p-4">
-                <h2 className="flex text-3xl font-bold gap-2">
+                <h2 className="flex sm:text-3xl text-xl font-bold gap-2">
                     Hello <span className="text-customRed">{user.displayName}!</span>
                 </h2>
-                <div className="mt-8 text-xl">
+                <div className="mt-8 sm:text-xl text-lg">
                     <h2>Transactions</h2>
                 </div>
             </div>
