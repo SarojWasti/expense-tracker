@@ -25,7 +25,9 @@
 .custom-list{
   @apply flex items-center transition-all duration-300 justify-between px-2 py-2
 }
-
+.ulListStyle{
+  @apply flex items-center cursor-pointer
+}
 .searchThis{
   @apply bg-gray-300 rounded-md focus:outline-none
 }

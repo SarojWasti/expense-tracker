@@ -24,26 +24,34 @@ const Sidebar = () => {
                 </a>
                 <div className="mt-20">
                     <ul className="space-y-10">
-                        <li className="custom-list">
-                            <a onClick={() => navigate("/dashboard")} className="flex items-center cursor-pointer hover:text-red-500 transition-colors duration-300">
+                        <li className="custom-list ">
+                            <a onClick={() => navigate("/dashboard")} 
+                            className={`ulListStyle hover:text-red-500 transition-colors duration-300
+                            ${location.pathname === '/dashboard' && 'text-red-500'}`}>
+
                                 <FontAwesomeIcon icon={faChartPie} className="md:text-lg text-2xl" />
                                 <span className="ml-4 hidden md:inline">Dashboard</span>
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a onClick={() => navigate('/dashboard/expenses')} className="flex items-center cursor-pointer hover:text-green-500 transition-colors duration-300">
+                            <a onClick={() => navigate('/dashboard/expenses')} 
+                            className={`ulListStyle hover:text-green-500 transition-colors duration-300
+                            ${location.pathname==='/dashboard/expenses' && 'text-green-500'}`}>
+
                                 <FontAwesomeIcon icon={faMoneyBillWave} className="md:text-lg text-2xl" />
                                 <span className="ml-4 hidden md:inline">Expenses</span>
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a onClick={() => navigate('/dashboard/messages')} className="flex items-center cursor-pointer hover:text-blue-500 transition-colors duration-300">
-                                <FontAwesomeIcon icon={faEnvelope} className="md:text-lg text-2xl" />
-                                <span className="ml-4 hidden md:inline">Messages</span>
+                            <a onClick={() => navigate('/dashboard/messages')} 
+                                className={`ulListStyle hover:text-blue-500 transition-colors duration-300
+                                ${location.pathname==='/dashboard/messages' && 'text-blue-500'}`}>
+                                    <FontAwesomeIcon icon={faEnvelope} className="md:text-lg text-2xl" />
+                                    <span className="ml-4 hidden md:inline">Messages</span>
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a className="flex items-center cursor-pointer hover:text-yellow-500 transition-colors duration-300">
+                            <a className="ulListStyle hover:text-yellow-500 transition-colors duration-300">
                                 <FontAwesomeIcon icon={faCog} className="md:text-lg text-2xl" />
                                 <span className="ml-4 hidden md:inline">Settings</span>
                             </a>
@@ -51,7 +59,7 @@ const Sidebar = () => {
                     </ul>
                     <ul className='mt-24'>
                         <li className="custom-list">
-                            <a className="flex items-center cursor-pointer hover:text-red-500 transition-colors duration-300" onClick={() => logOut()}>
+                            <a className="ulListStyle hover:text-red-500 transition-colors duration-300" onClick={() => logOut()}>
                             <FontAwesomeIcon icon={faSignOut} className="md:text-lg text-2xl" />
                             <span className="ml-4 hidden md:inline">Log Out</span>
                         </a>
