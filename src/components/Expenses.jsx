@@ -16,7 +16,7 @@ const Expenses = ({ user }) => {
 
     const expenseRef = collection(firestore, "expenseStore");
     const [snapshot, loading, error] = useCollection(
-        query(expenseRef, orderBy("createdDate"))
+        query(expenseRef, orderBy("createdDate","desc"))
     );
 
     if (loading) return <div>Loading...</div>;
@@ -25,7 +25,6 @@ const Expenses = ({ user }) => {
     const userExpense = snapshot?.docs
         .map(doc => ({ id: doc.id, ...doc.data() }))  // Combine doc ID with data
         .filter(expense => expense.userID === user.uid);
-
     const icons = [
         { icon: faBowlFood, value: 'Food' },
         { icon: faBus, value: 'Transport' },
@@ -33,12 +32,13 @@ const Expenses = ({ user }) => {
         { icon: faGem, value: 'Luxury' },
         { icon: faFolder, value: 'Other' },
     ];
+    const name = user.displayName.split(" ")[0];
 
     return (
-        <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl px-4 sm:px-8 lg:px-16">
+        <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl px-4 lg:px-16">
             <div className="p-4">
                 <h2 className="flex sm:text-3xl text-xl font-bold gap-2">
-                    Hello <span className="text-customRed">{user.displayName}!</span>
+                    Hello <span className="text-customRed">{name}!</span>
                 </h2>
                 <div className="mt-8 sm:text-xl text-lg">
                     <h2>Transactions</h2>

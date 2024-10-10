@@ -1,4 +1,4 @@
-import { collection, orderBy, query } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { firestore } from '../services/firebase';
 import _ from 'lodash';
@@ -32,7 +32,18 @@ const PieChart = ({ user }) => {
     );
 
     const userExpense = getExpenses?.filter(expense => expense.userID === user.uid) || [];
-    const totalExpenses = _.sum(userExpense.map(expense => Number(expense.amount)))
+    const thisMonth = _.sum(userExpense.map(expense =>{
+        const lastDate = new Date().getMonth();
+        const thisDate = new Date(expense.createdDate.toDate()).getMonth();
+        return thisDate===lastDate ?  Number(expense.amount) : 0;
+    } ))
+    const lastMonth = _.sum(userExpense.map(expense=>{
+        const thisDate = new Date(expense.createdDate.toDate()).getMonth();
+        const lastDate = new Date().getMonth()-1;
+        return thisDate === lastDate ? Number(expense.amount) : 0;
+    }))
+
+
     const chartData = {
         labels: userExpense.map(item => item.category),
         datasets: [
@@ -70,33 +81,30 @@ const PieChart = ({ user }) => {
             
             <div className="md:flex md:*:mt-0 *:mt-4 mt-4 md:space-x-16">
                 {/* Pie Chart Container */}
-                <div className="md:h-[26rem] md:w-[26rem] h-80 w-80 bg-white p-4">
-                    {userExpense.length > 0 ? (
-                        <Pie data={chartData} options={options} />
-                    ) : (
-                        <div className=" text-gray-500">
-                            No Expenses to show!
-                        </div>
-                    )}
-                </div>
-
-                {/* Total Expenses Card 
-                <div className='bg-white rounded-lg shadow-lg p-4 md:h-[10rem] md:w-[10rem] w-64 ml-4'>
-                    <div><FontAwesomeIcon icon={faWallet} className='text-green'/></div>
-                    <div className="font-bold">Total Income</div>
+                
+                {userExpense.length>0?
+                (<div className="md:h-[26rem] md:w-[26rem] h-80 w-80 bg-white p-4">
+                    <Pie data={chartData} options={options} />
+                </div>):
+                (
+                    <div className="text-gray-500 mb-10 mr-20">
+                        No Expenses to show!
+                    </div>
+                )
+                }
+                
+                <div className='bg-white rounded-lg shadow-lg p-4 h-[8rem] md:w-[10rem] w-64'>
+                    <div><FontAwesomeIcon icon={faWallet} className='text-black'/></div>
+                    <div className="font-bold">Last Month Expenses</div>
                     <span className='text-customRed text-2xl'>
-                        <div>
-                            -
-                        </div>
-
-                        <button onClick={openPopup} className='totalIncome text-xs font-bold'>Set Total Income?</button>
+                        ${lastMonth}
                     </span>
-                </div>*/}
+                </div>
                 <div className='bg-white rounded-lg shadow-lg p-4 h-[8rem] md:w-[10rem] w-64'>
                     <div><FontAwesomeIcon icon={faWallet} className='text-customRed'/></div>
-                    <div className="font-bold">Total Expenses</div>
+                    <div className="font-bold">This Month Expenses</div>
                     <span className='text-customRed text-2xl'>
-                        ${totalExpenses}
+                        ${thisMonth}
                     </span>
                 </div>
             </div>
