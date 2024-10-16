@@ -77,7 +77,7 @@ const Expenses = ({ user }) => {
                                 <FontAwesomeIcon icon={icons.find(icon => icon.value === expense.category)?.icon} />
                                 <div>{expense.category}</div>
                             </div>
-                            <div className="flex justify-between">
+                            <div className="flex justify-between relative">
                                 ${expense.amount} 
                                 <span onClick={() => toggleOptions(expense.id)} className="cursor-pointer text-gray-600 ml-4">
                                     <FontAwesomeIcon icon={faEllipsisV} />
