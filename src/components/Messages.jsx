@@ -68,7 +68,7 @@ const Messages = ({user}) =>{
             className="flex-1 border border-gray-300 p-2 rounded-l-lg outline-none"
             
           />
-          <button onClick={handleMessages} className="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600">
+          <button onClick={handleMessages} className={`${userMsg.trim() ? "bg-blue-700" : "bg-blue-500" }  text-white p-2 rounded-r-lg`}>
             Send
           </button>
         </div>
