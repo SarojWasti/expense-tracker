@@ -19,7 +19,7 @@ const Expenses = ({ user }) => {
         }
         document.addEventListener("mousedown",handleClick)
         return ()=>document.removeEventListener("mousedown",handleClick);
-    },[])
+    },[]);
     
     const deleteExpense = async(expenseID) => {
         try {
