@@ -2,9 +2,25 @@ import { collection, deleteDoc, doc, orderBy, query } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firestore } from "../services/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBowlFood, faBus, faFolder, faGem, faTools, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faBowlFood, faBus, faEllipsisV, faFolder, faGem, faPen, faTools, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useRef, useState } from "react";
 
 const Expenses = ({ user }) => {
+    const optionsRef = useRef(null);
+    const [showOptions, setShowOptions] = useState(null);
+    const toggleOptions = (expenseID) =>{
+        setShowOptions(showOptions === expenseID ? null : expenseID);
+    }
+    useEffect(()=>{
+        const handleClick = (event)=>{
+            if(optionsRef.current && !optionsRef.current.contains(event.target)){
+                setShowOptions(null);
+            }
+        }
+        document.addEventListener("mousedown",handleClick)
+        return ()=>document.removeEventListener("mousedown",handleClick);
+    },[])
+    
     const deleteExpense = async(expenseID) => {
         try {
             alert("Expense Deleted Successfully!");
@@ -63,9 +79,23 @@ const Expenses = ({ user }) => {
                             </div>
                             <div className="flex justify-between">
                                 ${expense.amount} 
-                                <span onClick={() => deleteExpense(expense.id)} className="cursor-pointer text-red-600">
-                                    <FontAwesomeIcon icon={faTrash} />
+                                <span onClick={() => toggleOptions(expense.id)} className="cursor-pointer text-gray-600 ml-4">
+                                    <FontAwesomeIcon icon={faEllipsisV} />
                                 </span>
+
+                                {showOptions === expense.id && (
+                                    <div ref={optionsRef} className="absolute right-0 mt-2 w-28 bg-white border rounded shadow-lg z-10">
+                                        <div className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2"
+                                             onClick={() => deleteExpense(expense.id)}>
+                                            <FontAwesomeIcon icon={faTrash} className="text-red-600" />
+                                            <span>Delete</span>
+                                        </div>
+                                        <div className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
+                                            <FontAwesomeIcon icon={faPen} className="text-blue-600" />
+                                            <span>Update</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))
