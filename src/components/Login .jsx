@@ -2,27 +2,21 @@ import { useState } from "react";
 import React from "react";
 import { signInWithPopup, auth, provider } from "../services/firebase";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, EmailAuthProvider, linkWithCredential } from "firebase/auth";
 
 const Login = () => {
     
     const navigate = useNavigate();
 
     const [visible, setShowPassword] = useState(true);
-    const [userEmail,setUserEmail] = useState('');
-    const [userPassword, setUserPassword] = useState('password');
-
-    const emailSignIn = async() =>{
-        try{
-            await createUserWithEmailAndPassword(auth, userEmail, userPassword);
-            alert("Signed in successfully!")
-        }catch(error){
-            alert(`${userEmail}, ${userPassword}`);
-        }
-    }
+    
     const signInWithGoogle = async () => {
         try {
-            await signInWithPopup(auth, provider);
+            const loginObj = await signInWithPopup(auth, provider);
+            const user = loginObj.user;
+            const credential = EmailAuthProvider.credential(user.email, "Your-Temporary-firebasepw-##1234##");
+            await linkWithCredential(user,credential);
+            
             navigate('/dashboard');
         } catch (error) {
             console.error(error);

@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import { addDoc, collection, query, Timestamp } from 'firebase/firestore';
 import { firestore } from '../services/firebase';
 import PieChart from './Piechart';
+import User from './User';
 
 const Home = ({ user}) => {
 
@@ -131,6 +132,8 @@ const Home = ({ user}) => {
           <Route path="messages" element={<Messages user={user}/>}/>
 
           <Route path="expenses" element={<Expenses user={user}/>}/>
+
+          <Route path="settings" element={<User user={user}/>}/>
       </Routes>
      {/*---------------------------------------------------------- */} 
       {/* Popup - Add Expense */}
