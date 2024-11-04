@@ -94,7 +94,7 @@ const PieChart = ({ user }) => {
                 }
                 
                 <div className='bg-white rounded-lg shadow-lg p-4 h-[8rem] md:w-[10rem] w-64'>
-                    <div><FontAwesomeIcon icon={faWallet} className='text-black'/></div>
+                    <div><FontAwesomeIcon icon={faWallet} className='text-blue-800'/></div>
                     <div className="font-bold">Last Month Expenses</div>
                     <span className='text-customRed text-2xl'>
                         ${lastMonth}
