@@ -1,11 +1,19 @@
-import { collection, deleteDoc, doc, orderBy, query } from "firebase/firestore";
+import { collection, deleteDoc, doc, orderBy, query, updateDoc } from "firebase/firestore";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firestore } from "../services/firebase";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBowlFood, faBus, faEllipsisV, faFolder, faGem, faPen, faTools, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
+import Add from "./Add";
 
 const Expenses = ({ user }) => {
+
+    //UPDATE HANDLE--------------
+    const [isEditing, setIsEditing] = useState(false);
+
+    const [expenseToEdit, setExpenseToEdit] = useState(null);
+
+    //HANDLE MOUSE CLICK ON WINDOW FOR ELLIPSIS---------
     const optionsRef = useRef(null);
     const [showOptions, setShowOptions] = useState(null);
     const toggleOptions = (expenseID) =>{
@@ -21,6 +29,7 @@ const Expenses = ({ user }) => {
         return ()=>document.removeEventListener("mousedown",handleClick);
     },[]);
     
+    //DELETE EXPENSE-----------------------------
     const deleteExpense = async(expenseID) => {
         try {
             alert("Expense Deleted Successfully!");
@@ -29,6 +38,21 @@ const Expenses = ({ user }) => {
             console.error(error);
         }
     };
+    
+    //EDIT EXPENSE ------------------------------
+    const editExpense = (expense)=>{
+        setIsEditing(true);
+        setExpenseToEdit(expense);
+        
+    }
+    const handleUpdate = async(updatedExpense) =>{
+        const docRef = doc(firestore,"expenseStore",updatedExpense.id);
+        await updateDoc(docRef,updatedExpense);
+        setIsEditing(false);
+        alert("Expense Updated Successfully!")
+    }
+
+    //------------------------------------------
 
     const expenseRef = collection(firestore, "expenseStore");
     const [snapshot, loading, error] = useCollection(
@@ -90,7 +114,7 @@ const Expenses = ({ user }) => {
                                             <FontAwesomeIcon icon={faTrash} className="text-red-600" />
                                             <span>Delete</span>
                                         </div>
-                                        <div className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
+                                        <div onClick={()=>editExpense(expense)} className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
                                             <FontAwesomeIcon icon={faPen} className="text-blue-600" />
                                             <span>Update</span>
                                         </div>
@@ -105,6 +129,11 @@ const Expenses = ({ user }) => {
                     </div>
                 )}
             </div>
+            {isEditing && (
+                <Add user={user} closePopup={()=>setIsEditing(false)}
+                expenseToEdit = {expenseToEdit}
+                />
+            )}
         </div>
     );
 };
