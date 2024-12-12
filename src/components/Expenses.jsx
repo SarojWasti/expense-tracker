@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBowlFood, faBus, faEllipsisV, faFolder, faGem, faPen, faTools, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import Add from "./Add";
+import DisplayMessage from "./Alert";
 
 const Expenses = ({ user }) => {
 
@@ -32,7 +33,7 @@ const Expenses = ({ user }) => {
     //DELETE EXPENSE-----------------------------
     const deleteExpense = async(expenseID) => {
         try {
-            alert("Expense Deleted Successfully!");
+            DisplayMessage("Expense Deleted","success");
             await deleteDoc(doc(firestore,"expenseStore",expenseID));
         } catch (error) {
             console.error(error);
@@ -44,12 +45,6 @@ const Expenses = ({ user }) => {
         setIsEditing(true);
         setExpenseToEdit(expense);
         
-    }
-    const handleUpdate = async(updatedExpense) =>{
-        const docRef = doc(firestore,"expenseStore",updatedExpense.id);
-        await updateDoc(docRef,updatedExpense);
-        setIsEditing(false);
-        alert("Expense Updated Successfully!")
     }
 
     //------------------------------------------

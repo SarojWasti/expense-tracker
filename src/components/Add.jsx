@@ -3,7 +3,7 @@ import { faTimes, faBowlFood, faBus, faTools, faFolder, faGem, faPlusCircle } fr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addDoc, collection, doc, Timestamp, updateDoc } from 'firebase/firestore';
 import { firestore } from '../services/firebase';
-
+import DisplayMessage from './Alert';
 const Add = ({ user, closePopup, expenseToEdit = null }) => {
   const [selectedIcon, setSelectedIcon] = useState('Food');
   const [initExpense, setExpense] = useState('');
@@ -41,10 +41,10 @@ const Add = ({ user, closePopup, expenseToEdit = null }) => {
     try {
       if (expenseToEdit) {
         await updateDoc(doc(firestore, 'expenseStore', expenseToEdit.id), expenseData);
-        alert('Expense updated successfully!');
+        DisplayMessage("Expense Updated!","success")
       } else {
         await addDoc(expenseRef, expenseData);
-        alert('Expense added successfully!');
+        DisplayMessage("Expense Added!", "success")
       }
       closePopup();
     } catch (error) {
