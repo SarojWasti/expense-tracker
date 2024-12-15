@@ -8,7 +8,6 @@ import { firestore } from '../services/firebase';
 import PieChart from './Piechart';
 import User from './User';
 import Add from './Add';
-import DisplayMessage from './Alert';
 
 const Home = ({ user }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -19,13 +18,6 @@ const Home = ({ user }) => {
     setShowPopup(true);
   };
   const closePopup = () => setShowPopup(false);
-
-  const displayUserInfo = () => {
-    DisplayMessage(`
-      Name: ${user.displayName}
-      Email: ${user.email}
-      `,'info','true',0,'500px');
-  };
 
   return (
     <div className="w-3/4 bg-white top-1 ml-4 mt-6">
@@ -56,7 +48,7 @@ const Home = ({ user }) => {
 
           {/* User icon */}
           <div className="flex items-center">
-            <button className="p-2" onClick={displayUserInfo}>
+            <button className="p-2">
               <span className="space-x-2 flex items-center">
                 <img
                   className="rounded-3xl h-auto w-auto sm:h-8 sm:w-8"
