@@ -5,7 +5,7 @@ import Messages from './Messages';
 import Expenses from './Expenses';
 import { Routes, Route } from 'react-router-dom';
 import { firestore } from '../services/firebase';
-import PieChart from './Piechart';
+import PieChart from './PieChart';
 import User from './User';
 import Add from './Add';
 
