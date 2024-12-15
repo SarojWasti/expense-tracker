@@ -111,7 +111,7 @@ const Expenses = ({ user }) => {
                                         </div>
                                         <div onClick={()=>editExpense(expense)} className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
                                             <FontAwesomeIcon icon={faPen} className="text-blue-600" />
-                                            <span>Update</span>
+                                            <span>Edit</span>
                                         </div>
                                     </div>
                                 )}

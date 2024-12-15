@@ -8,6 +8,7 @@ import { firestore } from '../services/firebase';
 import PieChart from './Piechart';
 import User from './User';
 import Add from './Add';
+import DisplayMessage from './Alert';
 
 const Home = ({ user }) => {
   const [showPopup, setShowPopup] = useState(false);
@@ -20,11 +21,10 @@ const Home = ({ user }) => {
   const closePopup = () => setShowPopup(false);
 
   const displayUserInfo = () => {
-    alert(`
-      User Name: ${user.displayName}
-      User Email: ${user.email}
-      Email Verified: ${user.emailVerified}
-    `);
+    DisplayMessage(`
+      Name: ${user.displayName}
+      Email: ${user.email}
+      `,'info','true',0,'500px');
   };
 
   return (

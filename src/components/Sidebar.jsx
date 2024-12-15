@@ -51,7 +51,10 @@ const Sidebar = () => {
                             </a>
                         </li>
                         <li className="custom-list">
-                            <a onClick={()=>navigate('/dashboard/settings')} className="ulListStyle hover:text-yellow-500 transition-colors duration-300">
+                            <a onClick={()=>navigate('/dashboard/settings')} 
+                            className={`ulListStyle hover:text-yellow-500 transition-colors duration-300
+                            ${location.pathname==='/dashboard/settings' && 'text-yellow-500'}
+                            `}>
                                 <FontAwesomeIcon icon={faCog} className="md:text-lg text-2xl" />
                                 <span className="ml-4 hidden md:inline">Settings</span>
                             </a>
