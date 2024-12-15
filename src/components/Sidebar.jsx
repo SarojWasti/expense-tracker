@@ -4,12 +4,13 @@ import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut } from '@fort
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebase';
 import ET from '/expensetracker.png';
+import DisplayMessage from './Alert';
 
 const Sidebar = () => {
 
     const navigate = useNavigate();
     const logOut = async() => {
-        alert("Signing you out!")
+        DisplayMessage("Signed out!","info",false,800);
         await auth.signOut();  
         navigate("/")
     }
