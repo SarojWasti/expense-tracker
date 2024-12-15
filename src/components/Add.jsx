@@ -98,7 +98,7 @@ const Add = ({ user, closePopup, expenseToEdit = null }) => {
             <input
               type="number"
               value={initCost}
-              onChange={(e) => setCost(e.target.value)}
+              onChange={()=>{/^\d*$/.test(value) && setCost(e.target.value)}}
               placeholder="Total Cost"
               className="expenseInput"
             />
