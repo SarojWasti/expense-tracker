@@ -3,8 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebase';
-import ET from '/expensetracker.png';
 import DisplayMessage from './Alert';
+import Logo from './Logo';
 
 const Sidebar = () => {
 
@@ -20,7 +20,7 @@ const Sidebar = () => {
             <div className="flex flex-col items-center mt-10">
                 <a onClick={() => navigate("/dashboard")}>
                     <div className="flex items-center justify-center cursor-pointer">
-                        <img className='md:w-[7rem] sm:w-[4.5rem] w-[3rem]' src={ET} />
+                        <Logo/>
                     </div>
                 </a>
                 <div className="mt-20">
