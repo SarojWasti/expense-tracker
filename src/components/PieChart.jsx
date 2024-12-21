@@ -42,13 +42,23 @@ const PieChart = ({ user }) => {
         const lastDate = new Date().getMonth()-1;
         return thisDate === lastDate ? Number(expense.amount) : 0;
     }))
+    const aggExpense = userExpense.reduce((acc,expense)=>{
+        const {category, amount} = expense;
+        if(!acc[category]){
+            acc[category] = 0;
+        }
+        acc[category] += Number(amount);
+        
+        return acc;
+        
+    },{});
 
 
     const chartData = {
-        labels: userExpense.map(item => item.category),
+        labels: Object.keys(aggExpense),
         datasets: [
             {
-                data: userExpense.map(item => item.amount),
+                data: Object.values(aggExpense),
                 backgroundColor: [
                     '#FF6384',
                     '#36A2EB',
