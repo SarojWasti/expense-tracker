@@ -4,7 +4,6 @@ import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut } from '@fort
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebase';
 import DisplayMessage from './Alert';
-import Logo from './Logo';
 
 const Sidebar = () => {
 
@@ -20,7 +19,7 @@ const Sidebar = () => {
             <div className="flex flex-col items-center mt-10">
                 <a onClick={() => navigate("/dashboard")}>
                     <div className="flex items-center justify-center cursor-pointer">
-                        <Logo/>
+                        <img src="/logo.png" width={150} md:width={100} />
                     </div>
                 </a>
                 <div className="mt-20">
