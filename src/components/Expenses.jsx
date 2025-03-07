@@ -70,63 +70,105 @@ const Expenses = ({ user }) => {
     const name = user.displayName.split(" ")[0];
 
     return (
-        <div className="flex flex-col mt-12 w-full h-[80vh] max-w-4xl px-4 lg:px-16">
-            <div className="p-4">
-                <h2 className="flex sm:text-3xl text-xl font-bold gap-2">
-                    Hello <span className="text-customRed">{name}!</span>
+        <div className="flex flex-col h-[calc(100vh-6rem)] p-6">
+            {/* Header Section */}
+            <div className="mb-8">
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
+                    Welcome back, <span className="text-customRed">{name}</span>
                 </h2>
-                <div className="mt-8 sm:text-xl text-lg">
-                    <h2>Transactions</h2>
-                </div>
+                <p className="mt-2 text-sm text-gray-500">Track and manage your expenses</p>
             </div>
-            <div className="p-4 overflow-y-auto flex-grow">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-8 border-b-2 pb-2 p-2 bg-gray-200">
+
+            {/* Transactions Section */}
+            <div className="flex flex-col flex-grow bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="p-6 border-b">
+                    <h3 className="text-lg font-semibold text-gray-800">Recent Transactions</h3>
+                </div>
+
+                {/* Table Header */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 bg-gray-50 border-b text-sm font-medium text-gray-600">
                     <div>Expense Name</div>
                     <div>Date</div>
                     <div>Category</div>
                     <div>Amount</div>
                 </div>
 
-                {userExpense && userExpense.length > 0 ? (
-                    userExpense.map((expense) => (
-                        <div key={expense.id} className="grid grid-cols-2 sm:grid-cols-4 mt-8 gap-4 sm:gap-8 border-b-2">
-                            <div>{expense.name}</div>
-                            <div>{new Date(expense.createdDate.toDate()).toLocaleDateString()}</div>
-                            <div className="flex items-center gap-2">
-                                <FontAwesomeIcon icon={icons.find(icon => icon.value === expense.category)?.icon} />
-                                <div>{expense.category}</div>
-                            </div>
-                            <div className="flex justify-between relative">
-                                ${expense.amount} 
-                                <span onClick={() => toggleOptions(expense.id)} className="cursor-pointer text-gray-600 ml-4">
-                                    <FontAwesomeIcon icon={faEllipsisV} />
-                                </span>
+                {/* Table Content */}
+                <div className="overflow-y-auto flex-grow">
+                    {userExpense && userExpense.length > 0 ? (
+                        userExpense.map((expense) => (
+                            <div 
+                                key={expense.id} 
+                                className="grid grid-cols-2 sm:grid-cols-4 gap-4 p-4 border-b 
+                                         hover:bg-gray-50 transition-colors duration-150"
+                            >
+                                <div className="font-medium text-gray-800">{expense.name}</div>
+                                <div className="text-gray-600">
+                                    {new Date(expense.createdDate.toDate()).toLocaleDateString()}
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <FontAwesomeIcon 
+                                        icon={icons.find(icon => icon.value === expense.category)?.icon}
+                                        className="text-customRed"
+                                    />
+                                    <span>{expense.category}</span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="font-medium">${expense.amount}</span>
+                                    <div className="relative">
+                                        <button
+                                            onClick={() => toggleOptions(expense.id)}
+                                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                                        >
+                                            <FontAwesomeIcon 
+                                                icon={faEllipsisV} 
+                                                className="text-gray-400 hover:text-gray-600"
+                                            />
+                                        </button>
 
-                                {showOptions === expense.id && (
-                                    <div ref={optionsRef} className="absolute right-0 mt-2 w-28 bg-white border rounded shadow-lg z-10">
-                                        <div className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2"
-                                             onClick={() => deleteExpense(expense.id)}>
-                                            <FontAwesomeIcon icon={faTrash} className="text-red-600" />
-                                            <span>Delete</span>
-                                        </div>
-                                        <div onClick={()=>editExpense(expense)} className="p-2 hover:bg-gray-200 cursor-pointer flex items-center gap-2">
-                                            <FontAwesomeIcon icon={faPen} className="text-blue-600" />
-                                            <span>Edit</span>
-                                        </div>
+                                        {showOptions === expense.id && (
+                                            <div 
+                                                ref={optionsRef}
+                                                className="absolute right-0 mt-2 w-36 bg-white rounded-lg 
+                                                         shadow-lg border border-gray-100 z-10 py-1"
+                                            >
+                                                <button
+                                                    onClick={() => editExpense(expense)}
+                                                    className="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 
+                                                             flex items-center gap-2 text-gray-700"
+                                                >
+                                                    <FontAwesomeIcon icon={faPen} className="text-blue-600" />
+                                                    <span>Edit</span>
+                                                </button>
+                                                <button
+                                                    onClick={() => deleteExpense(expense.id)}
+                                                    className="w-full px-4 py-2 text-sm text-left hover:bg-gray-50 
+                                                             flex items-center gap-2 text-gray-700"
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} className="text-red-600" />
+                                                    <span>Delete</span>
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
-                                )}
+                                </div>
                             </div>
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center p-8 text-gray-500">
+                            <FontAwesomeIcon icon={faFolder} className="text-4xl mb-2" />
+                            <p>No transactions to display.</p>
                         </div>
-                    ))
-                ) : (
-                    <div className="mt-8 text-center text-gray-500">
-                        No transactions to display.
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
+
+            {/* Edit Popup */}
             {isEditing && (
-                <Add user={user} closePopup={()=>setIsEditing(false)}
-                expenseToEdit = {expenseToEdit}
+                <Add 
+                    user={user} 
+                    closePopup={() => setIsEditing(false)}
+                    expenseToEdit={expenseToEdit}
                 />
             )}
         </div>

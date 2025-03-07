@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faCog, faEnvelope, faMoneyBillWave, faSignOut, faCreditCard } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../services/firebase';
 import DisplayMessage from './Alert';
@@ -18,8 +18,11 @@ const Sidebar = () => {
         <div className="sm:w-1/4 w-20 bg-gradient-to-b from-gray-800 to-gray-900 text-white h-screen flex flex-col justify-between shadow-lg">
             <div className="flex flex-col items-center mt-10">
                 <a onClick={() => navigate("/dashboard")}>
-                    <div className="flex items-center justify-center cursor-pointer">
-                    <img src="/logo.png" width={120} md:width={100} />
+                    <div className="flex items-center justify-center cursor-pointer transition-transform hover:scale-105">
+                        <div className="flex items-center justify-center p-3 rounded-xl">
+                            <FontAwesomeIcon icon={faCreditCard} className="text-3xl text-white mr-2" />
+                            <span className="hidden md:inline font-bold text-xl">ExpTracker</span>
+                        </div>
                     </div>
                 </a>
                 <div className="mt-20">

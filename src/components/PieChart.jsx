@@ -1,19 +1,20 @@
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
+import { collection, orderBy, query } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { firestore } from '../services/firebase';
 import _ from 'lodash';
-import { Line, Pie } from 'react-chartjs-2';
-import {
-    Chart as ChartJS,
-    ArcElement,
-    Tooltip,
-    Legend,
-} from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faTimes, faWallet } from '@fortawesome/free-solid-svg-icons';
+import { 
+    faPlusCircle, 
+    faTimes, 
+    faWallet,
+    faArrowTrendUp,
+    faArrowTrendDown,
+    faChartPie 
+} from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 
-// Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ user }) => {
@@ -23,7 +24,7 @@ const PieChart = ({ user }) => {
     const closePopup = () => setShowPopup(false);
     const [incomeTotal, setIncome] = useState(0);
 
-    const addIncome = () =>{
+    const addIncome = () => {
         
     }
     const expenseRef = collection(firestore, "expenseStore");
@@ -32,27 +33,52 @@ const PieChart = ({ user }) => {
     );
 
     const userExpense = getExpenses?.filter(expense => expense.userID === user.uid) || [];
-    const thisMonth = _.sum(userExpense.map(expense =>{
+    const thisMonth = _.sum(userExpense.map(expense => {
         const lastDate = new Date().getMonth();
         const thisDate = new Date(expense.createdDate.toDate()).getMonth();
-        return thisDate===lastDate ?  Number(expense.amount) : 0;
-    } ))
-    const lastMonth = _.sum(userExpense.map(expense=>{
-        const thisDate = new Date(expense.createdDate.toDate()).getMonth();
-        const lastDate = new Date().getMonth()-1;
         return thisDate === lastDate ? Number(expense.amount) : 0;
     }))
-    const aggExpense = userExpense.reduce((acc,expense)=>{
-        const {category, amount} = expense;
-        if(!acc[category]){
+    const lastMonth = _.sum(userExpense.map(expense => {
+        const thisDate = new Date(expense.createdDate.toDate()).getMonth();
+        const lastDate = new Date().getMonth() - 1;
+        return thisDate === lastDate ? Number(expense.amount) : 0;
+    }))
+    const aggExpense = userExpense.reduce((acc, expense) => {
+        const { category, amount } = expense;
+        if (!acc[category]) {
             acc[category] = 0;
         }
         acc[category] += Number(amount);
-        
-        return acc;
-        
-    },{});
 
+        return acc;
+
+    }, {});
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: {
+                    padding: 20,
+                    font: {
+                        size: 12,
+                        weight: '500',
+                        family: 'Inter, sans-serif'
+                    },
+                    usePointStyle: true,
+                    pointStyle: 'circle'
+                }
+            }
+        }
+    };
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const currentMonth = monthNames[new Date().getMonth()];
+    const previousMonth = monthNames[new Date().getMonth() - 1];
 
     const chartData = {
         labels: Object.keys(aggExpense),
@@ -70,81 +96,120 @@ const PieChart = ({ user }) => {
         ],
     };
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom',
-                labels:{
-                    font:{
-                        weight: "bold",
-                        size: '12'
-                    }
-                }
-            },
-        },
-    };
-
     return (
-        <div className="mt-12 w-full h-[80vh] max-w-4x overflow-y-auto">
-            <div className="text-xl">Dashboard</div>
-            
-            <div className="md:flex md:*:mt-0 *:mt-4 mt-4 md:space-x-16">
-                {/* Pie Chart Container */}
-                
-                {userExpense.length>0?
-                (<div className="md:h-[26rem] md:w-[26rem] h-80 w-80 bg-white p-4">
-                    <Pie data={chartData} options={options} />
-                </div>):
-                (
-                    <div className="text-gray-500 mb-10 mr-20">
-                        No Expenses to show!
-                    </div>
-                )
-                }
-                
-                <div className='bg-white rounded-lg shadow-lg p-4 h-[8rem] md:w-[10rem] w-64'>
-                    <div><FontAwesomeIcon icon={faWallet} className='text-blue-800'/></div>
-                    <div className="font-bold">Last Month Expenses</div>
-                    <span className='text-customRed text-2xl'>
-                        ${lastMonth}
-                    </span>
-                </div>
-                <div className='bg-white rounded-lg shadow-lg p-4 h-[8rem] md:w-[10rem] w-64'>
-                    <div><FontAwesomeIcon icon={faWallet} className='text-customRed'/></div>
-                    <div className="font-bold">This Month Expenses</div>
-                    <span className='text-customRed text-2xl'>
-                        ${thisMonth}
-                    </span>
+        <div className="flex-1 overflow-y-auto max-h-[calc(100vh-6rem)] p-6 bg-gray-50">
+            {/* Header Section */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+                <div className="space-y-1">
+                    <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">Financial Overview</h1>
                 </div>
             </div>
-            {showPopup && (
-        <div className="popup-overlay h-screen">
-          <div className="popup-container">
-            <button className="close-btn" onClick={closePopup}>
-              <FontAwesomeIcon icon={faTimes} />
-            </button>
-            <h2 className="text-xl font-bold text-customRed">Set Income</h2>
-            {/*************************Expense Add*************************************** */}
-              <div className='mt-4'>
-                <input
-                type="text"
-                value={incomeTotal}
-                onChange={(e)=>setIncome(e.target.value)}
-                placeholder="Your Total Income $"
-                className="expenseInput"
-              />
-              </div>
-              <button
-              onClick={addIncome}
-              className="mt-4 p-2 bg-customRed text-white rounded-lg">
-              Add Income <FontAwesomeIcon icon={faPlusCircle}/>
-            </button>
-          </div>
-        </div>
-      )}
-        </div>
 
+            {/* Main Content */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Chart Section */}
+                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm">
+                    <div className="p-6">
+                        <div className="flex items-center gap-2 mb-6">
+                            <FontAwesomeIcon icon={faChartPie} className="text-customRed text-xl" />
+                            <h2 className="text-lg font-semibold text-gray-800">Expense Distribution</h2>
+                        </div>
+                        <div className="h-[400px]">
+                            {userExpense.length > 0 ? (
+                                <Pie data={chartData} options={options} />
+                            ) : (
+                                <div className="h-full flex items-center justify-center text-gray-500">
+                                    No expenses to show
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Stats Section */}
+                <div className="space-y-6">
+                    {/* Current Month Card */}
+                    <div className="bg-white rounded-xl shadow-sm p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-semibold text-gray-800">{currentMonth}</h3>
+                            <FontAwesomeIcon 
+                                icon={thisMonth > lastMonth ? faArrowTrendUp : faArrowTrendDown} 
+                                className={`text-lg ${thisMonth > lastMonth ? 'text-green-500' : 'text-red-500'}`}
+                            />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">${thisMonth}</p>
+                        <div className="mt-2 text-sm text-gray-500">
+                            {thisMonth > lastMonth ? 'Increased' : 'Decreased'} from last month
+                        </div>
+                    </div>
+
+                    {/* Previous Month Card */}
+                    <div className="bg-white rounded-xl shadow-sm p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-semibold text-gray-800">{previousMonth}</h3>
+                            <FontAwesomeIcon icon={faWallet} className="text-gray-400 text-lg" />
+                        </div>
+                        <p className="text-3xl font-bold text-gray-800">${lastMonth}</p>
+                        <div className="mt-2 text-sm text-gray-500">Previous month's expenses</div>
+                    </div>
+
+                    {/* Top Categories Preview */}
+                    <div className="bg-white rounded-xl shadow-sm p-6">
+                        <h3 className="font-semibold text-gray-800 mb-4">Top Categories</h3>
+                        <div className="space-y-3">
+                            {Object.entries(aggExpense)
+                                .sort(([,a], [,b]) => b - a)
+                                .slice(0, 3)
+                                .map(([category, amount]) => (
+                                    <div key={category} 
+                                         className="flex items-center justify-between p-2 rounded-lg bg-gray-50">
+                                        <span className="text-gray-600 capitalize">{category}</span>
+                                        <span className="font-semibold">${amount}</span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Income Popup */}
+            {showPopup && (
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+                    <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
+                        <div className="p-6">
+                            <div className="flex justify-between items-center mb-6">
+                                <h2 className="text-xl font-bold text-gray-800">Set Monthly Income</h2>
+                                <button 
+                                    onClick={closePopup}
+                                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                                >
+                                    <FontAwesomeIcon icon={faTimes} />
+                                </button>
+                            </div>
+                            <input
+                                type="text"
+                                value={incomeTotal}
+                                onChange={(e) => setIncome(e.target.value)}
+                                placeholder="Enter your monthly income"
+                                className="w-full p-3 border border-gray-200 rounded-lg 
+                                         focus:ring-2 focus:ring-customRed focus:border-customRed 
+                                         transition-all duration-200"
+                            />
+                            <button
+                                onClick={addIncome}
+                                className="w-full mt-4 p-3 bg-customRed text-white rounded-lg 
+                                         hover:bg-red-600 transition-all duration-200 
+                                         flex items-center justify-center gap-2"
+                            >
+                                Save Income
+                                <FontAwesomeIcon icon={faPlusCircle} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
     );
 };
 

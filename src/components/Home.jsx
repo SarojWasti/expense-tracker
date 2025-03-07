@@ -23,15 +23,19 @@ const Home = ({ user }) => {
     <div className="w-3/4 bg-white top-1 ml-4 mt-6">
       <div className="flex items-center">
         {/* Search bar */}
-        <div className="relative w-full max-w-xs">
+        <div className="relative w-full max-w-sm">
           <input
             type="text"
-            placeholder="Search"
-            className="w-full p-2 border border-gray-500 rounded-md focus:outline-none"
+            placeholder="Search expenses..."
+            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 
+             rounded-lg focus:outline-none focus:ring-2 focus:ring-customRed 
+             focus:border-transparent transition-all duration-200 
+             placeholder:text-gray-400 text-sm"
           />
           <FontAwesomeIcon
             icon={faSearch}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
+              pointer-events-none"
           />
         </div>
 
