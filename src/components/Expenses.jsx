@@ -81,7 +81,7 @@ const Expenses = ({ user }) => {
 
             {/* Transactions Section */}
             <div className="flex flex-col flex-grow bg-white rounded-xl shadow-sm overflow-hidden">
-                <div className="p-6 border-b">
+                <div className="pb-6 border-b">
                     <h3 className="text-lg font-semibold text-gray-800">Recent Transactions</h3>
                 </div>
 

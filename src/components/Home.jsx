@@ -20,49 +20,40 @@ const Home = ({ user }) => {
   const closePopup = () => setShowPopup(false);
 
   return (
-    <div className="w-3/4 bg-white top-1 ml-4 mt-6">
-      <div className="flex items-center">
+    <div className="home-container">
+      <div className="header">
         {/* Search bar */}
-        <div className="relative w-full max-w-sm">
+        <div className="search-container">
           <input
             type="text"
-            placeholder="Search expenses..."
-            className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 
-             rounded-lg focus:outline-none focus:ring-2 focus:ring-customRed 
-             focus:border-transparent transition-all duration-200 
-             placeholder:text-gray-400 text-sm"
+            placeholder="Search..." // Changed from "Search expenses..."
+            className="search-input"
           />
           <FontAwesomeIcon
             icon={faSearch}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 
-              pointer-events-none"
+            className="search-icon"
           />
         </div>
 
-        <div className="flex xl:space-x-12 xl:ml-[20rem] sm:ml-[4rem] ml-6">
+        <div className="actions-container">
           {/* Add Expense Button */}
-          <div className="flex items-center md:text-sm">
-            <button
-              className="p-3 bg-customRed text-white rounded-lg lg:p-2"
-              onClick={() => openPopup()}
-            >
-              <span className='lg:inline hidden'>Add Expense</span> <FontAwesomeIcon icon={faPlusCircle} />
-            </button>
-          </div>
+          <button
+            onClick={() => openPopup()}
+            className="add-expense-btn"
+          >
+            <FontAwesomeIcon icon={faPlusCircle} className="add-icon" />
+            <span className="add-text">Add Expense</span>
+          </button>
 
-          {/* User icon */}
-          <div className="flex items-center">
-            <button className="p-2">
-              <span className="space-x-2 flex items-center">
-                <img
-                  className="rounded-3xl h-auto w-auto sm:h-8 sm:w-8"
-                  src={user.photoURL}
-                  alt="User"
-                />
-                <div className='md:inline hidden'>{user.displayName}</div>
-              </span>
-            </button>
-          </div>
+          {/* User Profile */}
+          <button className="user-profile">
+            <img
+              src={user.photoURL}
+              alt="User"
+              className="user-avatar"
+            />
+            <span className="user-name">{user.displayName}</span>
+          </button>
         </div>
       </div>
 
